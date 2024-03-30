@@ -20,10 +20,7 @@ class FireBaseHelper {
   }
 }
 
-// static setLogin(bool isLogged)async{
-//   final SharedPreferences pref=await SharedPreferences.getInstance();
-//   await pref.setBool('isLogged', isLogged);
-// }
+
   //create a new account
   static signup(String user, String email, String age, String phone,
       String password,context) async {
@@ -75,26 +72,6 @@ class FireBaseHelper {
     }
   }
 
-  //sign in with email and password
-  // static Future<void> signInWithEmailAndPassword(
-  //     String email, String password,context) async {
-  //   try {
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     setLogin(true);
-  //   //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
-  //   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-  //     print('User signed in successfully');
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Signed in succesfully')));
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  //     ScaffoldMessenger.of(context)
-  //         .showSnackBar(SnackBar(content: Text('user not found')));
-  //     print('Failed to sign in: $e');
-  //   }
-  // }
 
 
   static Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context) async {
@@ -132,25 +109,6 @@ class FireBaseHelper {
 }
 
 
-///google sign ----------------------------------------------
-// static void handleGoogleSignIn(context)async{
-//   try{
-//    GoogleSignInAccount? googleSignInAccount=await GoogleSignIn().signIn();
-//    if(googleSignInAccount!=null){
-//     GoogleSignInAuthentication auth=await googleSignInAccount.authentication;
-//     AuthCredential credential=GoogleAuthProvider.credential(idToken: auth.idToken,accessToken:auth.accessToken );
-//     UserCredential userCredential=await FirebaseAuth.instance.signInWithCredential(credential);
-//     await addUserToDatabase(userCredential.user,context);
-//     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('google signed in')));
-//    setLogin(true);
-//     // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
-//     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-    
-//    } 
-//   }catch(e){
-//     print('error!!!!!!$e');
-//   }
-// }
 
 static void handleGoogleSignIn(BuildContext context) async {
   try {
@@ -182,7 +140,7 @@ static void handleGoogleSignIn(BuildContext context) async {
 
       setLogin(true);
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   } catch (e) {
     Navigator.pop(context);
@@ -209,17 +167,31 @@ static Future<void> addUserToDatabase(user,context)async{
 
 //logout from account
 static logoutFromAccount(context)async{
+  try{
+      showDialog(
+      context: context,
+      barrierDismissible: false, 
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Center(
+            child: CircularProgressIndicator(),
+          )
+        );
+      },
+    );
  FirebaseAuth firebaseAuth=FirebaseAuth.instance;
  GoogleSignIn googleSignIn=GoogleSignIn();
-  try{
  await firebaseAuth.signOut();
  await googleSignIn.signOut();
  print('signed out from account');
+ Navigator.pop(context);
  setLogin(false);
-  }catch(e){
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('error signing out')));
-  }
- Navigator.popUntil(context, (route) => route.isFirst);
+ Navigator.popAndPushNamed(context, 'loginscreen');
+}catch(e){
+ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('error signing out')));
+}
+
 }
 
 

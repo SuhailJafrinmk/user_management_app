@@ -40,12 +40,13 @@
 //     );
 //   }
 // }
+
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:user_management/view/screens/home_screen.dart';
-import 'package:user_management/view/screens/login_screen.dart';
+import 'package:user_management/view/screens/boarding_screen.dart';
+
 import 'package:user_management/view/themes/theme_file.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -72,19 +73,21 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
    void nextScreen() async {
-    SharedPreferences sharedpref = await SharedPreferences.getInstance();
-    bool ? isLoggedin = sharedpref.getBool('isLogged');
-    print('value of logged in is $isLoggedin');
+    // SharedPreferences sharedpref = await SharedPreferences.getInstance();
+    // bool ? isLoggedin = sharedpref.getBool('isLogged');
+    // print('value of logged in is $isLoggedin');
 
     Timer(const Duration(seconds: 3), () {
-      isLoggedin != null
-          ? isLoggedin
-              ? Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) =>  HomeScreen()))
-              : Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()))
-          : Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()));
-    });
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>BoardingScreen()));
+      // isLoggedin != null
+      //     ? isLoggedin
+      //         ? Navigator.pushReplacement(context,
+      //             MaterialPageRoute(builder: (context) =>  HomeScreen()))
+      //         : Navigator.pushReplacement(context,
+      //             MaterialPageRoute(builder: (context) => const LoginScreen()))
+      //     : Navigator.pushReplacement(context,
+      //         MaterialPageRoute(builder: (context) => const LoginScreen()));
+    }
+    );
   }
 }

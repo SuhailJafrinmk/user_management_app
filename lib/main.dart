@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:user_management/view/screens/boarding_screen.dart';
 import 'package:user_management/view/screens/home_screen.dart';
 import 'package:user_management/view/screens/login_screen.dart';
 import 'package:user_management/view/screens/splash_screen.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget{
     return  MaterialApp(
       routes: {
         'splashscreen':(context) => SplashScreen(),
+        'boardingscreen':(context) => BoardingScreen(),
         'loginscreen':(context) => LoginScreen(),
         'homescreen':(context)=>HomeScreen(),
       },

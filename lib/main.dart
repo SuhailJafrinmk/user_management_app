@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:user_management/view/screens/home_screen.dart';
+import 'package:user_management/view/screens/login_screen.dart';
 import 'package:user_management/view/screens/splash_screen.dart';
 import 'package:user_management/view/themes/theme_file.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,9 +21,14 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return  MaterialApp(
+      routes: {
+        'splashscreen':(context) => SplashScreen(),
+        'loginscreen':(context) => LoginScreen(),
+        'homescreen':(context)=>HomeScreen(),
+      },
       theme: AppThemeSetter.appTheme,
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

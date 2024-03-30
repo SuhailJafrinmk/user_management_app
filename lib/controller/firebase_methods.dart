@@ -1,13 +1,29 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_management/model/user_model.dart';
 import 'package:user_management/view/screens/home_screen.dart';
 import 'package:user_management/view/screens/login_screen.dart';
 
 class FireBaseHelper {
-  
+  static Future<void> setLogin(bool isLogged) async {
+  try {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setBool('isLogged', isLogged);
+    print('Login status set successfully');
+  } catch (e) {
+    print('Failed to set login status: $e');
+  }
+}
+
+// static setLogin(bool isLogged)async{
+//   final SharedPreferences pref=await SharedPreferences.getInstance();
+//   await pref.setBool('isLogged', isLogged);
+// }
   //create a new account
   static signup(String user, String email, String age, String phone,
       String password,context) async {
@@ -35,7 +51,7 @@ class FireBaseHelper {
         ),
       );
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     } on FirebaseException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -60,41 +76,117 @@ class FireBaseHelper {
   }
 
   //sign in with email and password
-  static Future<void> signInWithEmailAndPassword(
-      String email, String password,context) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      print('User signed in successfully');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Signed in succesfully')));
-    } catch (e) {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('user not found')));
-      print('Failed to sign in: $e');
-    }
+  // static Future<void> signInWithEmailAndPassword(
+  //     String email, String password,context) async {
+  //   try {
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+  //     setLogin(true);
+  //   //  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
+  //   Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+  //     print('User signed in successfully');
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Signed in succesfully')));
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(SnackBar(content: Text('user not found')));
+  //     print('Failed to sign in: $e');
+  //   }
+  // }
+
+
+  static Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context) async {
+  try {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Center(
+            child: CircularProgressIndicator(),
+          )
+        );
+      },
+    );
+
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    setLogin(true);
+    Navigator.pop(context);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+    print('User signed in successfully');
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Signed in successfully')));
+  } catch (e) {
+    Navigator.pop(context);
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to sign in: $e')));
+    print('Failed to sign in: $e');
   }
+}
 
 
 ///google sign ----------------------------------------------
-static void handleGoogleSignIn(context)async{
-  try{
-   GoogleSignInAccount? googleSignInAccount=await GoogleSignIn().signIn();
-   if(googleSignInAccount!=null){
-    GoogleSignInAuthentication auth=await googleSignInAccount.authentication;
-    AuthCredential credential=GoogleAuthProvider.credential(idToken: auth.idToken,accessToken:auth.accessToken );
-    UserCredential userCredential=await FirebaseAuth.instance.signInWithCredential(credential);
-    await addUserToDatabase(userCredential.user,context);
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('google signed in')));
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
+// static void handleGoogleSignIn(context)async{
+//   try{
+//    GoogleSignInAccount? googleSignInAccount=await GoogleSignIn().signIn();
+//    if(googleSignInAccount!=null){
+//     GoogleSignInAuthentication auth=await googleSignInAccount.authentication;
+//     AuthCredential credential=GoogleAuthProvider.credential(idToken: auth.idToken,accessToken:auth.accessToken );
+//     UserCredential userCredential=await FirebaseAuth.instance.signInWithCredential(credential);
+//     await addUserToDatabase(userCredential.user,context);
+//     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('google signed in')));
+//    setLogin(true);
+//     // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
+//     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
     
-   } 
-  }catch(e){
-    print('error!!!!!!$e');
+//    } 
+//   }catch(e){
+//     print('error!!!!!!$e');
+//   }
+// }
+
+static void handleGoogleSignIn(BuildContext context) async {
+  try {
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, 
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Center(
+            child: CircularProgressIndicator(),
+          )
+        );
+      },
+    );
+
+    GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+    if (googleSignInAccount != null) {
+      GoogleSignInAuthentication auth = await googleSignInAccount.authentication;
+      AuthCredential credential = GoogleAuthProvider.credential(idToken: auth.idToken, accessToken: auth.accessToken);
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      await addUserToDatabase(userCredential.user, context);
+
+      Navigator.pop(context);
+
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Google signed in')));
+
+      setLogin(true);
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
+  } catch (e) {
+    Navigator.pop(context);
+    print('Error: $e');
   }
 }
 
@@ -117,13 +209,30 @@ static Future<void> addUserToDatabase(user,context)async{
 
 //logout from account
 static logoutFromAccount(context)async{
-  try{
  FirebaseAuth firebaseAuth=FirebaseAuth.instance;
+ GoogleSignIn googleSignIn=GoogleSignIn();
+  try{
  await firebaseAuth.signOut();
+ await googleSignIn.signOut();
+ print('signed out from account');
+ setLogin(false);
   }catch(e){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('error signing out')));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('error signing out')));
   }
- Navigator.pop(context);
+ Navigator.popUntil(context, (route) => route.isFirst);
+}
+
+
+
+
+static Future<void> deleteUser(String id,BuildContext context)async{
+  try{
+   final storage=FirebaseFirestore.instance;
+   final reference=storage.collection('userdata').doc(id);
+   await reference.delete();
+  }catch(e){
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('error occured while deleting user')));
+  }
 }
 
 

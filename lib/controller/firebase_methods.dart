@@ -21,10 +21,24 @@ class FireBaseHelper {
 }
 
 
-  //create a new account
+  //creating a new account
   static signup(String user, String email, String age, String phone,
       String password,context) async {
     try {
+       showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Center(
+            child: CircularProgressIndicator(
+              color: Colors.teal,
+            ),
+          )
+        );
+      },
+    );
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await FirebaseAuth.instance.currentUser!.updateDisplayName(email);
@@ -41,6 +55,7 @@ class FireBaseHelper {
           .collection('userdata')
           .doc(userCredential.user!.uid)
           .set(usermode.toMap());
+          Navigator.pop(context);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -73,7 +88,7 @@ class FireBaseHelper {
   }
 
 
-
+//sign in with existing account using email and password
   static Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context) async {
   try {
     showDialog(
@@ -83,7 +98,9 @@ class FireBaseHelper {
         return const AlertDialog(
           backgroundColor: Colors.transparent,
           content: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.teal,
+            ),
           )
         );
       },
@@ -108,8 +125,7 @@ class FireBaseHelper {
   }
 }
 
-
-
+//sign in a user using google sign in provider 
 static void handleGoogleSignIn(BuildContext context) async {
   try {
 
@@ -120,7 +136,9 @@ static void handleGoogleSignIn(BuildContext context) async {
         return const AlertDialog(
           backgroundColor: Colors.transparent,
           content: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.teal,
+            ),
           )
         );
       },
@@ -165,7 +183,7 @@ static Future<void> addUserToDatabase(user,context)async{
   }
 }
 
-//logout from account
+//sign out from account
 static logoutFromAccount(context)async{
   try{
       showDialog(
@@ -175,7 +193,9 @@ static logoutFromAccount(context)async{
         return const AlertDialog(
           backgroundColor: Colors.transparent,
           content: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: Colors.teal,
+            ),
           )
         );
       },
@@ -187,7 +207,7 @@ static logoutFromAccount(context)async{
  print('signed out from account');
  Navigator.pop(context);
  setLogin(false);
- Navigator.popAndPushNamed(context, 'loginscreen');
+ Navigator.pushReplacementNamed(context, 'loginscreen');
 }catch(e){
 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('error signing out')));
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LoginTextField extends StatelessWidget {
+  FocusNode ? focusNode;
+  void Function(String)? onChanged;
   bool  obscureText;
   Color ? suffixIconColor;
   Color ? prefixIconColor;
@@ -12,11 +14,13 @@ class LoginTextField extends StatelessWidget {
   String hintText;
   String labelText;
   String? Function(String?)? validator;
-  LoginTextField({required this.obscureText,this.prefixIconWidget,this.prefixIconColor,this.sufixIconWidget,this.suffixIconColor,this.isFilled,required this.controller,
+  LoginTextField({this.focusNode,this.onChanged,required this.obscureText,this.prefixIconWidget,this.prefixIconColor,this.sufixIconWidget,this.suffixIconColor,this.isFilled,required this.controller,
   required this.hintText,required this.labelText,this.validator});
   @override
   Widget build(BuildContext context){
     return TextFormField(
+      focusNode: focusNode,
+      onChanged: onChanged,
       obscureText: obscureText,
       controller: controller,
       validator: validator,

@@ -1,4 +1,3 @@
-
 // import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 // import 'package:flutter/material.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +13,6 @@
 //   @override
 
 // bool  ? signedin;
-
 
 //  checkSigned()async{
 //     final shared=await SharedPreferences.getInstance();
@@ -36,17 +34,12 @@
 //     ]),),),
 //       onEnd: () => signedin==true ? Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen())) : Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen())),
 
-     
 //     );
 //   }
 // }
 
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:user_management/view/screens/boarding_screen.dart';
-
 import 'package:user_management/view/themes/theme_file.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -59,26 +52,42 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    nextScreen();
+    nextScreen(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.teal.shade800,
-      body:  Center(child: RichText(text: TextSpan(children: [
-        TextSpan(text: 'USER',style: AppThemeSetter.setTextStyle(size: 60, fontWeight: FontWeight.w500,color: Colors.white)),
-        TextSpan(text: 'VAULT',style: AppThemeSetter.setTextStyle(size: 30, fontWeight: FontWeight.w500,color: Colors.white)),
-    ]),),),
+      body: Center(
+        child: RichText(
+          text: TextSpan(children: [
+            TextSpan(
+                text: 'USER',
+                style: AppThemeSetter.setTextStyle(
+                    size: 60,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)),
+            TextSpan(
+                text: 'VAULT',
+                style: AppThemeSetter.setTextStyle(
+                    size: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)),
+          ]),
+        ),
+      ),
     );
   }
-   void nextScreen() async {
+
+  void nextScreen(BuildContext context) async {
     // SharedPreferences sharedpref = await SharedPreferences.getInstance();
     // bool ? isLoggedin = sharedpref.getBool('isLogged');
     // print('value of logged in is $isLoggedin');
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BoardingScreen()));
+      Navigator.pushReplacementNamed(context, 'boardingscreen');
       // isLoggedin != null
       //     ? isLoggedin
       //         ? Navigator.pushReplacement(context,
@@ -87,7 +96,6 @@ class _SplashScreenState extends State<SplashScreen> {
       //             MaterialPageRoute(builder: (context) => const LoginScreen()))
       //     : Navigator.pushReplacement(context,
       //         MaterialPageRoute(builder: (context) => const LoginScreen()));
-    }
-    );
+    });
   }
 }

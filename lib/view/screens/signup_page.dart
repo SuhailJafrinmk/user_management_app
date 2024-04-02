@@ -37,6 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: SingleChildScrollView(
           child: Form(
             key: formkey,
+            autovalidateMode: AutovalidateMode.always,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -72,6 +73,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
                   child: LoginTextField(
+                    onChanged: (value) {
+                      setState(() {
+                        userNameController.text=value;
+                      });
+                    },
                       validator: (value) {
                         final pattern = RegExp(r'^[a-zA-Z0-9_-]{3,20}$');
                         if (value == null || value.isEmpty) {
@@ -93,6 +99,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
                   child: LoginTextField(
+                    onChanged: (value) {
+                      emailController.text=value;
+                    },
                       validator: (value) {
                         final pattern =
                             RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
@@ -114,6 +123,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
                   child: LoginTextField(
+                    onChanged:(value) {
+                      passwordController.text=value; 
+                    },
                       validator: (value) {
                         final pattern = RegExp(
                             r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -136,6 +148,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
                   child: LoginTextField(
+                    onChanged: (value) {
+                      ageController.text=value;
+                      
+                    },
                       validator: (value) {
                         final pattern = RegExp(r'^(1[0-9]|[2-9][0-9]|100)$');
                         if (value == null || value.isEmpty) {
@@ -156,6 +172,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
                   child: LoginTextField(
+                    onChanged:(value) {
+                      phoneNoControlller.text=value;
+                      
+                    },
                       validator: (value) {
                         final pattern = RegExp(r'^[6-9]\d{9}$');
                         if (value == null || value.isEmpty) {
@@ -192,11 +212,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             phoneNoControlller.text,
                             passwordController.text,
                             context);
-                        userNameController.clear();
-                        passwordController.clear();
-                        emailController.clear();
-                        ageController.clear();
-                        phoneNoControlller.clear();
+                        // userNameController.clear();
+                        // passwordController.clear();
+                        // emailController.clear();
+                        // ageController.clear();
+                        // phoneNoControlller.clear();
                       }
                     },
                     radius: 20,

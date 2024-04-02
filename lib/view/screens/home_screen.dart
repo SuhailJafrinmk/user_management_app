@@ -18,8 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String defaultImage =
       'https://images.wondershare.com/repairit/aticle/2021/07/resolve-images-not-showing-problem-1.jpg';
   void selectImage(String email) async {
-    String? img=await imageSetter.addImageToDb(email, context, ImageSource.gallery);
-        
+    String? img =
+        await imageSetter.addImageToDb(email, context, ImageSource.gallery);
+
     setState(() {
       imageUrl = img;
     });
@@ -30,13 +31,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title:  Text('UserList',style: AppThemeSetter.setTextStyle(size: 25, fontWeight: FontWeight.w500,color: Colors.white),),
+        title: Text(
+          'UserList',
+          style: AppThemeSetter.setTextStyle(
+              size: 25, fontWeight: FontWeight.w500, color: Colors.white),
+        ),
         actions: [
           IconButton(
               onPressed: () {
                 FireBaseHelper.logoutFromAccount(context);
               },
-              icon: const Icon(Icons.logout,color: Colors.white,))
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.white,
+              ))
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -81,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     return AlertDialog(
                                       backgroundColor: Colors.teal.shade800,
                                       contentPadding: const EdgeInsets.all(6),
-                                      title: const Text('view details'),
+                                      title:  Text('View-Details',style: AppThemeSetter.setTextStyle(size: 25, fontWeight: FontWeight.w500,color: Colors.white),),
                                       content: SingleChildScrollView(
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
@@ -90,9 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(20),
                                           ),
-                                          height:
-                                              AppThemeSetter.setHeight(context) *
-                                                  .5,
+                                          height: AppThemeSetter.setHeight(
+                                                  context) *
+                                              .5,
                                           width:
                                               AppThemeSetter.setWidth(context) *
                                                   .8,
@@ -110,22 +118,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     width:
                                                         AppThemeSetter.setWidth(
                                                                 context) *
-                                                            .25,
+                                                            .22,
                                                   ),
                                                   CircleAvatar(
-                                                    radius: 30,
+                                                    radius: 50,
                                                     child: IconButton(
                                                         onPressed: () async {
-                                                          print('tapped..tapped');
+                                                          print(
+                                                              'tapped..tapped');
                                                           selectImage(userData[
                                                               'userEmail']);
                                                         },
-                                                        icon: const Icon(Icons.add)),
+                                                        icon: const Icon(
+                                                            Icons.add)),
                                                   ),
                                                 ],
                                               ),
                                               const SizedBox(
-                                                height: 20,
+                                                height: 50,
                                               ),
                                               Text(
                                                 'user:${userData['userName']}',
@@ -146,16 +156,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         color: Colors.white),
                                               ),
                                               Text('age:${userData['userAge']}',
-                                                  style:
-                                                      AppThemeSetter.setTextStyle(
+                                                  style: AppThemeSetter
+                                                      .setTextStyle(
                                                           size: 20,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                           color: Colors.white)),
                                               Text(
                                                   'phone:${userData['userPhone']}',
-                                                  style:
-                                                      AppThemeSetter.setTextStyle(
+                                                  style: AppThemeSetter
+                                                      .setTextStyle(
                                                           size: 20,
                                                           fontWeight:
                                                               FontWeight.w500,

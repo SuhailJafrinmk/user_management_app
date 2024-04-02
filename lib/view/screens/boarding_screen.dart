@@ -73,7 +73,7 @@ class _BoardingScreenState extends State<BoardingScreen> {
                                 fontWeight: FontWeight.normal,
                                 color: Colors.white),
                           ),
-                          Icon(
+                          const Icon(
                             Icons.navigate_next_sharp,
                             color: Colors.white,
                           )
@@ -104,10 +104,10 @@ class _BoardingScreenState extends State<BoardingScreen> {
           Navigator.pushReplacementNamed(context, 'loginscreen');
         }
       }
-      Navigator.pushReplacementNamed(context, 'loginscreen');
+      // Navigator.pushReplacementNamed(context, 'loginscreen');
     } catch (e) {
       print('error accessing value $e');
-       Navigator.pushReplacementNamed(context, 'loginscreen');
+      Navigator.pushReplacementNamed(context, 'loginscreen');
     }
   }
 }

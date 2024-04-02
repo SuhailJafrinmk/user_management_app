@@ -10,6 +10,8 @@ import 'package:user_management/view/screens/home_screen.dart';
 import 'package:user_management/view/screens/login_screen.dart';
 
 class FireBaseHelper {
+
+  //setting shared preferences value when logged in 
   static Future<void> setLogin(bool isLogged) async {
   try {
     final SharedPreferences pref = await SharedPreferences.getInstance();
@@ -21,7 +23,7 @@ class FireBaseHelper {
 }
 
 
-  //creating a new account
+  //creating a new account using firebase auth
   static signup(String user, String email, String age, String phone,
       String password,context) async {
     try {
@@ -166,6 +168,7 @@ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeS
   }
 }
 
+//add userdata to database
 static Future<void> addUserToDatabase(user,context)async{
   try{
     CollectionReference reference=FirebaseFirestore.instance.collection('userdata');
@@ -183,7 +186,7 @@ static Future<void> addUserToDatabase(user,context)async{
   }
 }
 
-//sign out from account
+//sign out from account using firebase auth
 static logoutFromAccount(context)async{
   try{
       showDialog(

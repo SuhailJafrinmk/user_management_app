@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ImageSetter imageSetter = ImageSetter();
   final current = FirebaseAuth.instance.currentUser;
   String? imageUrl;
+
   String defaultImage =
       'https://images.wondershare.com/repairit/aticle/2021/07/resolve-images-not-showing-problem-1.jpg';
   void selectImage(String email) async {
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       imageUrl = img;
+      print("$imageUrl+ssssssssssssss");
     });
   }
 
@@ -89,7 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     return AlertDialog(
                                       backgroundColor: Colors.teal.shade800,
                                       contentPadding: const EdgeInsets.all(6),
-                                      title:  Text('View-Details',style: AppThemeSetter.setTextStyle(size: 25, fontWeight: FontWeight.w500,color: Colors.white),),
+                                      title: Text(
+                                        'View-Details',
+                                        style: AppThemeSetter.setTextStyle(
+                                            size: 25,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
                                       content: SingleChildScrollView(
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
@@ -120,18 +128,37 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 context) *
                                                             .22,
                                                   ),
-                                                  CircleAvatar(
-                                                    radius: 50,
-                                                    child: IconButton(
-                                                        onPressed: () async {
-                                                          print(
-                                                              'tapped..tapped');
-                                                          selectImage(userData[
-                                                              'userEmail']);
-                                                        },
-                                                        icon: const Icon(
-                                                            Icons.add)),
-                                                  ),
+                                                  userData['userProfile'] !=
+                                                          null
+                                                      ? InkWell(
+                                                          onTap: () async {
+                                                            print(
+                                                                'tapped..tapped');
+                                                            selectImage(userData[
+                                                                'userEmail']);
+                                                          },
+                                                          child: CircleAvatar(
+                                                            radius: 50,
+                                                            backgroundImage:
+                                                                NetworkImage(
+                                                                    userData[
+                                                                        'userProfile']),
+                                                          ),
+                                                        )
+                                                      : CircleAvatar(
+                                                          radius: 50,
+                                                          child: IconButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                print(
+                                                                    'tapped..tapped');
+                                                                selectImage(
+                                                                    userData[
+                                                                        'userEmail']);
+                                                              },
+                                                              icon: const Icon(
+                                                                  Icons.add)),
+                                                        )
                                                 ],
                                               ),
                                               const SizedBox(

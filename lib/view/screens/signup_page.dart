@@ -69,6 +69,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                 ),
+
+
+                //field for username////////////////////////////////
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
@@ -95,6 +98,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Enter Your Username',
                       labelText: 'Username'),
                 ),
+
+
+                //field for email id////////////////////////////////
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
@@ -119,6 +125,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Enter Your Email',
                       labelText: 'Email'),
                 ),
+
+
+                //field for password////////////////////////////
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
@@ -143,7 +152,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Enter Your Password',
                       labelText: 'Password'),
                 ),
-                ////////////////////////////////////////////////////////////////////////////////
+
+
+                //field for adding age/////////////////////////////
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
@@ -168,6 +179,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       hintText: 'Enter Your age',
                       labelText: 'Age'),
                 ),
+
+
+                //field for adding mobile number////////////////////
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 20, right: 20, bottom: 10, top: 10),
@@ -212,11 +226,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             phoneNoControlller.text,
                             passwordController.text,
                             context);
-                        // userNameController.clear();
-                        // passwordController.clear();
-                        // emailController.clear();
-                        // ageController.clear();
-                        // phoneNoControlller.clear();
                       }
                     },
                     radius: 20,
